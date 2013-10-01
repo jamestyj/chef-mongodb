@@ -38,7 +38,7 @@ end
 
 
 # configure default instance
-mongodb_instance "mongodb" do
+mongodb_instance node['mongodb']['instance_name'] do
   mongodb_type "mongod"
   bind_ip      node['mongodb']['bind_ip']
   port         node['mongodb']['port']
