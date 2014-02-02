@@ -109,11 +109,11 @@ define :mongodb_instance,
   else
     provider = "mongos"
     # mongos will fail to start if dbpath is set
-    node[:mongodb][:config].delete('dbpath')
-    node[:mongodb][:config][:configdb] = new_resource.configserver_nodes.collect{|n| "#{(n['mongodb']['configserver_url'] || n['fqdn'])}:#{n['mongodb']['config']['port']}" }.sort.join(",") unless node[:mongodb][:config][:configdb]
+    node.override[:mongodb][:config].delete('dbpath')
+    node.override[:mongodb][:config][:configdb] = new_resource.configserver_nodes.collect{|n| "#{(n['mongodb']['configserver_url'] || n['fqdn'])}:#{n['mongodb']['config']['port']}" }.sort.join(",") unless node[:mongodb][:config][:configdb]
   end
 
-  node[:mongodb][:config][:configsvr] = true if new_resource.type == "configserver"
+  node.override[:mongodb][:config][:configsvr] = true if new_resource.type == "configserver"
 
   # default file
   template new_resource.sysconfig_file do
