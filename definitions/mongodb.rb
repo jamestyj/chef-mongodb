@@ -109,7 +109,7 @@ define :mongodb_instance,
   else
     provider = "mongos"
     # mongos will fail to start if dbpath is set
-    node.override[:mongodb][:config].delete('dbpath')
+    node.default[:mongodb][:config].delete('dbpath')
 
     unless node[:mongodb][:config][:configdb]
       node.override[:mongodb][:config][:configdb] = new_resource.configserver_nodes.collect{ |n|
