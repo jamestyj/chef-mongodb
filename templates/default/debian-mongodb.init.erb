@@ -146,7 +146,7 @@ start_server() {
 stop_server() {
 # Stop the process using the wrapper
             start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-                        --retry 300 \
+                        --retry 10 \
                         --user $DAEMON_USER \
                         --exec $DAEMON
             errcode=$?

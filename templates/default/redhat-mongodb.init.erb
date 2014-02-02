@@ -50,9 +50,9 @@ stop()
 {
   echo -n $"Stopping <%= @provides %>: "
   if test "x$PIDFILE" != "x"; then
-    killproc -p $PIDFILE -d 300 $DAEMON
+    killproc -p $PIDFILE -d 10 $DAEMON
   else
-    killproc -d 300 $DAEMON
+    killproc -d 10 $DAEMON
   fi
   RETVAL=$?
   echo
