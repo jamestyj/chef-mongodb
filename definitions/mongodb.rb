@@ -115,6 +115,9 @@ define :mongodb_instance,
 
   node.override[:mongodb][:config][:configsvr] = true if new_resource.type == "configserver"
 
+  # Things may have changed, so copy everything over again
+  new_resource.config = node['mongodb']['config']
+
   # default file
   template new_resource.sysconfig_file do
     cookbook new_resource.template_cookbook
