@@ -113,10 +113,14 @@ define :mongodb_instance,
     node.override[:mongodb][:config][:configdb] = new_resource.configserver_nodes.collect{|n| "#{(n['mongodb']['configserver_url'] || n['fqdn'])}:#{n['mongodb']['config']['port']}" }.sort.join(",") unless node[:mongodb][:config][:configdb]
   end
 
-  node.override[:mongodb][:config][:configsvr] = true if new_resource.type == "configserver"
+  if new_resource.type == "configserver"
+    node.override[:mongodb][:config][:configsvr] = true
+    node.override[:mongodb][:sysconfig][:DAEMON_OPTS] = node[:mongodb][:sysconfig][:DAEMON_OPTS] + " --configsvr"
+  end
 
   # Things may have changed, so copy everything over again
-  new_resource.config = node['mongodb']['config']
+  new_resource.config         = node[:mongodb][:config]
+  new_resource.sysconfig_vars = node[:mongodb][:sysconfig]
 
   # default file
   template new_resource.sysconfig_file do
